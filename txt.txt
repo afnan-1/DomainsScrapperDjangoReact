@@ -1,0 +1,5 @@
+hey maximeyao, i was creating script to catch data from expireddomain website.
+first issue i was faced that it needs the login/credentials for access this domains. I was using my account for testing but later i check, my account was banned because we scrap data from that website which is against the rule of website. 
+1 one possible solution is that every time you run this web application you want to create new account on expired if they banned. And put that credentials in our website. 
+............
+i was got the domains when i run this firsttime, but later when i check after 2,3 hours my account was banned
