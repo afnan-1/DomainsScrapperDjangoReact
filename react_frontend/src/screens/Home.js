@@ -1,0 +1,72 @@
+import React, { useState } from "react";
+import { domains, filteredDomains } from "../actions/domains";
+import Results from "../components/AllDomains";
+import FilteredDomains from "../components/FilteredDomains";
+function Home() {
+  const [price, setPrice] = useState(2000);
+  const [domainNo, setDomainNo] = useState(50);
+  const [scrapedResults, setScrapedResults] = useState([]);
+  const [filteredResults, setFilteredResults] = useState([]);
+  const [loader, setLoader] = useState(false);
+  const [filterLoader, setFilterLoader] = useState(false);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setLoader(true);
+    setFilterLoader(true);
+    domains(domainNo).then((res) => {
+      setScrapedResults([...res.data.data]);
+      setLoader(false);
+      filteredDomains(price).then((res) => {
+        setFilteredResults(res.data.domains);
+        setFilterLoader(false);
+      });
+    });
+  };
+  return (
+    <div className="container mt-5">
+      <h2 className="text-center">Domain Checker on Godaddy Appraisal</h2>
+      <form onSubmit={handleSubmit}>
+        <div className="mb-3">
+          <label htmlFor="price" className="form-label">
+            Enter appraisal value in <small>(Default is $2000)</small>
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            id="price"
+            value={price}
+            placeholder="2000"
+            onChange={(e) => setPrice(e.target.value)}
+          />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="limit" className="form-label">
+            Please enter no of domains you want to check on appraisal tool{" "}
+            <small>(Default is 50)</small>
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            id="limit"
+            placeholder="50"
+            value={domainNo}
+            onChange={(e) => setDomainNo(e.target.value)}
+          />
+        </div>
+        <button className="btn btn-primary mt-4" type="submit">
+          Search
+        </button>
+      </form>
+      <div className="row">
+        <div className="col">
+          <Results other={scrapedResults} otherLoader={loader} />
+        </div>
+        <div className="col">
+            <FilteredDomains domains={filteredResults} loader={filterLoader} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default Home;
